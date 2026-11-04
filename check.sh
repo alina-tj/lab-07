@@ -15,17 +15,17 @@ for tc in {1..4}; do
         if [ -f "$f2" ]; then
             if ! cmp -s "$f1" "$f2"; then
                 has_diffs=true
-                # Must exist and match actual diff (ignoring line 1-2 timestamps)
+                #Must exist and match actual diff (ignoring line 1-2 timestamps)
                 if [ ! -f "$out" ] || [ "$(diff -u "$f1" "$f2" | tail -n +3)" != "$(tail -n +3 "$out" 2>/dev/null)" ]; then
                     pass=false
                 fi
             elif [ -f "$out" ]; then
-                pass=false # Should not exist for matching files
+                pass=false #Should not exist for matching files
             fi
         fi
     done
 
-    # Check directory existence rules
+    #Check directory existence rules
     if { [ "$has_diffs" = true ] && [ ! -d "$diff_dir" ]; } || { [ "$has_diffs" = false ] && [ -d "$diff_dir" ]; }; then
         pass=false
     fi
